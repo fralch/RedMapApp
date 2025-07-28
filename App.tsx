@@ -1,20 +1,16 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// Importamos nuestro navegador principal de la aplicación
+import AppNavigator from './src/navigation/AppNavigator';
 
+// Componente principal de la aplicación
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <>
+      {/* Renderizamos el navegador principal que maneja todas las rutas */}
+      <AppNavigator />
+      {/* Configuramos la barra de estado para que se ajuste automáticamente */}
       <StatusBar style="auto" />
-    </View>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
