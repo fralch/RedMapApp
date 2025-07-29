@@ -1,5 +1,4 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
 // Importamos nuestro navegador principal de la aplicación
 import AppNavigator from './src/navigation/AppNavigator';
 
@@ -9,8 +8,7 @@ export default function App() {
     <>
       {/* Renderizamos el navegador principal que maneja todas las rutas */}
       <AppNavigator />
-      {/* Configuramos la barra de estado para que se ajuste automáticamente */}
-      <StatusBar style="auto" />
+      {/* StatusBar se maneja ahora desde MapScreen para cambiar con el modo oscuro */}
     </>
   );
 }
