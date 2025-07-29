@@ -35,17 +35,17 @@ const MapScreen: React.FC = () => {
 
   if (isLoadingLocation) {
     return (
-      <View style={mapScreenStyles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={mapScreenStyles.loadingText}>Obteniendo ubicación...</Text>
+      <View style={isDarkMode ? mapScreenStyles.loadingContainerDark : mapScreenStyles.loadingContainer}>
+        <ActivityIndicator size="large" color={isDarkMode ? "#64B5F6" : "#007AFF"} />
+        <Text style={isDarkMode ? mapScreenStyles.loadingTextDark : mapScreenStyles.loadingText}>Obteniendo ubicación...</Text>
       </View>
     );
   }
 
   if (!userLocation) {
     return (
-      <View style={mapScreenStyles.errorContainer}>
-        <Text style={mapScreenStyles.errorText}>
+      <View style={isDarkMode ? mapScreenStyles.errorContainerDark : mapScreenStyles.errorContainer}>
+        <Text style={isDarkMode ? mapScreenStyles.errorTextDark : mapScreenStyles.errorText}>
           No se pudo obtener la ubicación.
           {error && `\n${error}`}
         </Text>
