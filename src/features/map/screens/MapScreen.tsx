@@ -1,21 +1,28 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Alert, ActivityIndicator, Text } from 'react-native';
+import { View, Alert, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { Ionicons } from '@expo/vector-icons';
 import { useMapStore } from '../store/mapStore';
+import { mapScreenStyles, darkMapStyle, lightMapStyle } from '../styles';
 
 const MapScreen: React.FC = () => {
   const {
     userLocation,
     isLoadingLocation,
     error,
+    isDarkMode,
     getCurrentLocation,
     setError,
+    toggleDarkMode,
+    loadDarkModeFromStorage,
   } = useMapStore();
 
   useEffect(() => {
+    // Cargar el estado del modo oscuro desde AsyncStorage
+    loadDarkModeFromStorage();
     // Obtener la ubicación del usuario al montar el componente
     getCurrentLocation();
-  }, [getCurrentLocation]);
+  }, [getCurrentLocation, loadDarkModeFromStorage]);
 
   useEffect(() => {
     // Mostrar error si existe
@@ -28,17 +35,17 @@ const MapScreen: React.FC = () => {
 
   if (isLoadingLocation) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={mapScreenStyles.loadingContainer}>
         <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={styles.loadingText}>Obteniendo ubicación...</Text>
+        <Text style={mapScreenStyles.loadingText}>Obteniendo ubicación...</Text>
       </View>
     );
   }
 
   if (!userLocation) {
     return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>
+      <View style={mapScreenStyles.errorContainer}>
+        <Text style={mapScreenStyles.errorText}>
           No se pudo obtener la ubicación.
           {error && `\n${error}`}
         </Text>
@@ -46,11 +53,14 @@ const MapScreen: React.FC = () => {
     );
   }
 
+  const mapStyle = isDarkMode ? darkMapStyle : lightMapStyle;
+
   return (
-    <View style={styles.container}>
+    <View style={mapScreenStyles.container}>
       <MapView
         provider={PROVIDER_GOOGLE}
-        style={styles.map}
+        style={mapScreenStyles.map}
+        customMapStyle={mapStyle}
         initialRegion={{
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
@@ -70,41 +80,21 @@ const MapScreen: React.FC = () => {
           description="Estás aquí"
         />
       </MapView>
+      
+      {/* Botón para cambiar el tema del mapa */}
+      <TouchableOpacity
+        style={[mapScreenStyles.themeButton, isDarkMode ? mapScreenStyles.themeButtonDark : mapScreenStyles.themeButtonLight]}
+        onPress={toggleDarkMode}
+        activeOpacity={0.7}
+      >
+        <Ionicons
+          name={isDarkMode ? 'sunny' : 'moon'}
+          size={24}
+          color={isDarkMode ? '#FFF' : '#000'}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: '#666',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    padding: 20,
-  },
-  errorText: {
-    fontSize: 16,
-    color: '#d32f2f',
-    textAlign: 'center',
-    lineHeight: 24,
-  },
-});
 
 export default MapScreen;
