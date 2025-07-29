@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Alert, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,6 +7,7 @@ import { useMapStore } from '../store/mapStore';
 import { mapScreenStyles, darkMapStyle, lightMapStyle } from '../styles';
 
 const MapScreen: React.FC = () => {
+  const mapRef = useRef<MapView>(null);
   const {
     userLocation,
     isLoadingLocation,
@@ -33,6 +34,17 @@ const MapScreen: React.FC = () => {
       ]);
     }
   }, [error, setError]);
+
+  const centerOnUserLocation = () => {
+    if (userLocation && mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      }, 1000);
+    }
+  };
 
   if (isLoadingLocation) {
     return (
@@ -67,6 +79,7 @@ const MapScreen: React.FC = () => {
       <StatusBar style={isDarkMode ? "light" : "dark"} />
       <View style={mapScreenStyles.container}>
         <MapView
+          ref={mapRef}
           provider={PROVIDER_GOOGLE}
           style={mapScreenStyles.map}
           customMapStyle={mapStyle}
@@ -77,8 +90,8 @@ const MapScreen: React.FC = () => {
             longitudeDelta: 0.01,
           }}
           showsUserLocation={true}
-          showsMyLocationButton={true}
-          followsUserLocation={true}
+          showsMyLocationButton={false} // Desactivamos el botón nativo
+          followsUserLocation={false} // Cambiado a false para control manual
         >
           <Marker
             coordinate={{
@@ -89,6 +102,19 @@ const MapScreen: React.FC = () => {
             description="Estás aquí"
           />
         </MapView>
+        
+        {/* Botón para centrar en la ubicación - Inferior Izquierda */}
+        <TouchableOpacity
+          style={[mapScreenStyles.locationButton, isDarkMode ? mapScreenStyles.locationButtonDark : mapScreenStyles.locationButtonLight]}
+          onPress={centerOnUserLocation}
+          activeOpacity={0.7}
+        >
+          <Ionicons
+            name="locate"
+            size={24}
+            color={isDarkMode ? '#FFF' : '#000'}
+          />
+        </TouchableOpacity>
         
         {/* Botón para cambiar el tema del mapa */}
         <TouchableOpacity
