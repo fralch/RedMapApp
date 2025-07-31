@@ -104,19 +104,17 @@ const MapScreen: React.FC = () => {
           />
           <Heatmap
             points={coordinates.map(c => ({ latitude: c.latitud, longitude: c.longitud, weight: 1 }))}
-            radius={50}
-            opacity={0.6}
+            radius={30}
+            opacity={0.3}
             gradient={{
               colors: [
                 'rgba(255, 0, 0, 0)',      // Completely transparent
-                'rgba(255, 0, 0, 0.1)',    // Very subtle red
-                'rgba(255, 0, 0, 0.2)',    // Light red
-                'rgba(255, 0, 0, 0.3)',    // Medium red
-                'rgba(255, 0, 0, 0.4)',    // Strong red
-                'rgba(255, 0, 0, 0.5)',    // Very strong red
+                'rgba(255, 0, 0, 0)',      // Transparent border
+                'rgba(255, 0, 0, 0.7)',    // Sharp transition to solid red
+                'rgba(255, 0, 0, 0.9)',    // Strong red center
               ],
-              startPoints: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
-              colorMapSize: 256,
+              startPoints: [0.0, 0.7, 0.85, 1.0],
+              colorMapSize: 64,
             }}
           />
         </MapView>
