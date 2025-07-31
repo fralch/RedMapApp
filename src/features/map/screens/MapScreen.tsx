@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Alert, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useMapStore } from '../store/mapStore';
 import { mapScreenStyles, darkMapStyle, lightMapStyle } from '../styles';
+import coordinates from '../data/coordinates.json';
 
 const MapScreen: React.FC = () => {
   const mapRef = useRef<MapView>(null);
@@ -100,6 +101,23 @@ const MapScreen: React.FC = () => {
             }}
             title="Mi ubicación"
             description="Estás aquí"
+          />
+          <Heatmap
+            points={coordinates.map(c => ({ latitude: c.latitud, longitude: c.longitud, weight: 1 }))}
+            radius={50}
+            opacity={0.6}
+            gradient={{
+              colors: [
+                'rgba(255, 0, 0, 0)',      // Completely transparent
+                'rgba(255, 0, 0, 0.1)',    // Very subtle red
+                'rgba(255, 0, 0, 0.2)',    // Light red
+                'rgba(255, 0, 0, 0.3)',    // Medium red
+                'rgba(255, 0, 0, 0.4)',    // Strong red
+                'rgba(255, 0, 0, 0.5)',    // Very strong red
+              ],
+              startPoints: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
+              colorMapSize: 256,
+            }}
           />
         </MapView>
         
