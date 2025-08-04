@@ -134,6 +134,32 @@ const MapScreen: React.FC = () => {
             color={isDarkMode ? '#FFF' : '#000'}
           />
         </TouchableOpacity>
+
+        {/* Botón para agregar hot points - Centro Inferior */}
+        <TouchableOpacity
+          style={[mapScreenStyles.addHotPointButton, isDarkMode ? mapScreenStyles.addHotPointButtonDark : mapScreenStyles.addHotPointButtonLight]}
+          onPress={() => Alert.alert('Agregar Hot Point', 'Funcionalidad para agregar nuevos puntos de calor')}
+          activeOpacity={0.7}
+        >
+          <Ionicons
+            name="add-circle"
+            size={24}
+            color={isDarkMode ? '#FFF' : '#000'}
+          />
+        </TouchableOpacity>
+
+        {/* Botón para gestión de usuario - Centro Inferior Derecha */}
+        <TouchableOpacity
+          style={[mapScreenStyles.userManagementButton, isDarkMode ? mapScreenStyles.userManagementButtonDark : mapScreenStyles.userManagementButtonLight]}
+          onPress={() => Alert.alert('Gestión de Usuario', 'Funcionalidad para gestionar el perfil de usuario')}
+          activeOpacity={0.7}
+        >
+          <Ionicons
+            name="person-circle"
+            size={24}
+            color={isDarkMode ? '#FFF' : '#000'}
+          />
+        </TouchableOpacity>
       </View>
     </>
   );
