@@ -129,4 +129,94 @@ locationButtonDark: {
     fontWeight: '600',
     marginLeft: 5,
   },
+
+  // Estilos del Modal Informativo
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContainer: {
+    borderRadius: 15,
+    padding: 25,
+    width: '90%',
+    maxWidth: 350,
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+  },
+  modalContainerLight: {
+    backgroundColor: '#FFF',
+  },
+  modalContainerDark: {
+    backgroundColor: '#2C2C2C',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  modalIcon: {
+    marginRight: 12,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    flex: 1,
+  },
+  modalTitleLight: {
+    color: '#333',
+  },
+  modalTitleDark: {
+    color: '#FFF',
+  },
+  modalMessage: {
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 25,
+    textAlign: 'center',
+  },
+  modalMessageLight: {
+    color: '#666',
+  },
+  modalMessageDark: {
+    color: '#CCC',
+  },
+  modalButton: {
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    alignItems: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
+  modalButtonLight: {
+    backgroundColor: '#DC3545',
+  },
+  modalButtonDark: {
+    backgroundColor: '#FF6B6B',
+  },
+  modalButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  modalButtonTextLight: {
+    color: '#FFF',
+  },
+  modalButtonTextDark: {
+    color: '#FFF',
+  },
 });

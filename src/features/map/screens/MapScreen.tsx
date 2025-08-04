@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Alert, Text, TouchableOpacity } from 'react-native';
+import { View, Alert, Text, TouchableOpacity, Modal } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
@@ -13,6 +13,7 @@ import coordinates from '../data/coordinates.json';
 const MapScreen: React.FC = () => {
   const mapRef = useRef<MapView>(null);
   const [isAuthModalVisible, setIsAuthModalVisible] = useState(false);
+  const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const {
     userLocation,
     isLoadingLocation,
@@ -140,7 +141,7 @@ const MapScreen: React.FC = () => {
         {/* Botón para agregar hot points - Centro Inferior */}
         <TouchableOpacity
           style={[mapScreenStyles.addHotPointButton, isDarkMode ? mapScreenStyles.addHotPointButtonDark : mapScreenStyles.addHotPointButtonLight]}
-          onPress={() => Alert.alert('Agregar Hot Point', 'Funcionalidad para agregar nuevos puntos de calor')}
+          onPress={() => setIsInfoModalVisible(true)}
           activeOpacity={0.7}
         >
           <Ionicons
@@ -169,6 +170,44 @@ const MapScreen: React.FC = () => {
           onClose={() => setIsAuthModalVisible(false)}
           isDarkMode={isDarkMode}
         />
+
+        {/* Modal Informativo para Agregar Hot Point */}
+        <Modal
+          visible={isInfoModalVisible}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => setIsInfoModalVisible(false)}
+        >
+          <View style={mapScreenStyles.modalOverlay}>
+            <View style={[mapScreenStyles.modalContainer, isDarkMode ? mapScreenStyles.modalContainerDark : mapScreenStyles.modalContainerLight]}>
+              <View style={mapScreenStyles.modalHeader}>
+                <Ionicons
+                  name="information-circle"
+                  size={32}
+                  color={isDarkMode ? '#FF6B6B' : '#DC3545'}
+                  style={mapScreenStyles.modalIcon}
+                />
+                <Text style={[mapScreenStyles.modalTitle, isDarkMode ? mapScreenStyles.modalTitleDark : mapScreenStyles.modalTitleLight]}>
+                  Agregar un nuevo punto 
+                </Text>
+              </View>
+              
+              <Text style={[mapScreenStyles.modalMessage, isDarkMode ? mapScreenStyles.modalMessageDark : mapScreenStyles.modalMessageLight]}>
+                Para agregar un nuevo punto de calor, simplemente presiona cualquier punto en la pantalla del mapa donde desees marcarlo.
+              </Text>
+              
+              <TouchableOpacity
+                style={[mapScreenStyles.modalButton, isDarkMode ? mapScreenStyles.modalButtonDark : mapScreenStyles.modalButtonLight]}
+                onPress={() => setIsInfoModalVisible(false)}
+                activeOpacity={0.7}
+              >
+                <Text style={[mapScreenStyles.modalButtonText, isDarkMode ? mapScreenStyles.modalButtonTextDark : mapScreenStyles.modalButtonTextLight]}>
+                  Entendido
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </>
   );
