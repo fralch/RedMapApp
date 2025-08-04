@@ -1,0 +1,180 @@
+import { StyleSheet } from 'react-native';
+
+export const errorScreenStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+    paddingHorizontal: 20,
+  },
+  containerDark: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0d1117',
+    paddingHorizontal: 20,
+  },
+  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    maxWidth: 350,
+  },
+  backgroundCircle: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    opacity: 0.05,
+    top: -50,
+  },
+  backgroundCircleLight: {
+    backgroundColor: '#d32f2f',
+  },
+  backgroundCircleDark: {
+    backgroundColor: '#ff6b6b',
+  },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+  },
+  iconContainerLight: {
+    backgroundColor: 'rgba(211, 47, 47, 0.1)',
+  },
+  iconContainerDark: {
+    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#1a1a1a',
+    textAlign: 'center',
+    marginBottom: 12,
+    letterSpacing: 0.5,
+  },
+  titleDark: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#e6edf3',
+    textAlign: 'center',
+    marginBottom: 12,
+    letterSpacing: 0.5,
+  },
+  message: {
+    fontSize: 16,
+    color: '#4b5563',
+    textAlign: 'center',
+    marginBottom: 16,
+    lineHeight: 24,
+    fontWeight: '400',
+  },
+  messageDark: {
+    fontSize: 16,
+    color: '#9ca3af',
+    textAlign: 'center',
+    marginBottom: 16,
+    lineHeight: 24,
+    fontWeight: '400',
+  },
+  errorContainer: {
+    backgroundColor: 'rgba(211, 47, 47, 0.1)',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 24,
+    borderLeftWidth: 4,
+    borderLeftColor: '#d32f2f',
+  },
+  errorText: {
+    fontSize: 14,
+    color: '#d32f2f',
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  errorTextDark: {
+    fontSize: 14,
+    color: '#ff6b6b',
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  retryButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 25,
+    marginBottom: 32,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+  },
+  retryButtonLight: {
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: '#007AFF',
+  },
+  retryButtonDark: {
+    backgroundColor: '#007AFF',
+    borderWidth: 2,
+    borderColor: '#007AFF',
+  },
+  retryButtonIcon: {
+    marginRight: 8,
+  },
+  retryButtonTextLight: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#007AFF',
+  },
+  retryButtonTextDark: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
+  },
+  suggestionsContainer: {
+    width: '100%',
+    marginTop: 8,
+  },
+  suggestionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 12,
+    textAlign: 'left',
+  },
+  suggestionTitleLight: {
+    color: '#374151',
+  },
+  suggestionTitleDark: {
+    color: '#d1d5db',
+  },
+  suggestion: {
+    fontSize: 14,
+    lineHeight: 20,
+    marginBottom: 6,
+    textAlign: 'left',
+  },
+  suggestionLight: {
+    color: '#6b7280',
+  },
+  suggestionDark: {
+    color: '#9ca3af',
+  },
+});

@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Alert, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
+import { View, Alert, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useMapStore } from '../store/mapStore';
 import { mapScreenStyles, darkMapStyle, lightMapStyle } from '../styles';
+import LoadingScreen from '../components/LoadingScreen';
+import ErrorScreen from '../components/ErrorScreen';
 import coordinates from '../data/coordinates.json';
 
 const MapScreen: React.FC = () => {
@@ -48,28 +50,16 @@ const MapScreen: React.FC = () => {
   };
 
   if (isLoadingLocation) {
-    return (
-      <>
-        <StatusBar style={isDarkMode ? "light" : "dark"} />
-        <View style={isDarkMode ? mapScreenStyles.loadingContainerDark : mapScreenStyles.loadingContainer}>
-          <ActivityIndicator size="large" color={isDarkMode ? "#64B5F6" : "#007AFF"} />
-          <Text style={isDarkMode ? mapScreenStyles.loadingTextDark : mapScreenStyles.loadingText}>Obteniendo ubicación...</Text>
-        </View>
-      </>
-    );
+    return <LoadingScreen isDarkMode={isDarkMode} />;
   }
 
   if (!userLocation) {
     return (
-      <>
-        <StatusBar style={isDarkMode ? "light" : "dark"} />
-        <View style={isDarkMode ? mapScreenStyles.errorContainerDark : mapScreenStyles.errorContainer}>
-          <Text style={isDarkMode ? mapScreenStyles.errorTextDark : mapScreenStyles.errorText}>
-            No se pudo obtener la ubicación.
-            {error && `\n${error}`}
-          </Text>
-        </View>
-      </>
+      <ErrorScreen 
+        isDarkMode={isDarkMode} 
+        error={error}
+        onRetry={getCurrentLocation}
+      />
     );
   }
 
