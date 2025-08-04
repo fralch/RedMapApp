@@ -9,6 +9,7 @@ import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
 import AuthModal from '../../auth/components/AuthModal';
 import SuccessModal from '../../../components/common/SuccessModal';
+import { getPrimaryRed } from '../../../styles/colors';
 import coordinates from '../data/coordinates.json';
 
 interface UserHotPoint {
@@ -230,7 +231,7 @@ const MapScreen: React.FC = () => {
                 <Ionicons
                   name="information-circle"
                   size={32}
-                  color={isDarkMode ? '#FF6B6B' : '#DC3545'}
+                  color={getPrimaryRed(isDarkMode)}
                   style={mapScreenStyles.modalIcon}
                 />
                 <Text style={[mapScreenStyles.modalTitle, isDarkMode ? mapScreenStyles.modalTitleDark : mapScreenStyles.modalTitleLight]}>
@@ -269,7 +270,7 @@ const MapScreen: React.FC = () => {
                   <Ionicons
                     name="location"
                     size={28}
-                    color={isDarkMode ? '#FF6B6B' : '#DC3545'}
+                    color={getPrimaryRed(isDarkMode)}
                   />
                 </View>
                 <Text style={[mapScreenStyles.confirmModalTitle, isDarkMode ? mapScreenStyles.modalTitleDark : mapScreenStyles.modalTitleLight]}>

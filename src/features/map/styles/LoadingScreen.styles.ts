@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { colors } from '../../../styles/colors';
 
 const { width, height } = Dimensions.get('window');
 
@@ -31,10 +32,10 @@ export const loadingScreenStyles = StyleSheet.create({
     top: -50,
   },
   backgroundCircleLight: {
-    backgroundColor: '#DC2626',
+    backgroundColor: colors.primary.red.light,
   },
   backgroundCircleDark: {
-    backgroundColor: '#EF4444',
+    backgroundColor: colors.primary.red.dark,
   },
   iconContainer: {
     width: 80,
@@ -66,10 +67,10 @@ export const loadingScreenStyles = StyleSheet.create({
     borderRadius: 4,
   },
   dotLight: {
-    backgroundColor: '#DC2626',
+    backgroundColor: colors.primary.red.light,
   },
   dotDark: {
-    backgroundColor: '#EF4444',
+    backgroundColor: colors.primary.red.dark,
   },
   text: {
     fontSize: 18,

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from './colors';
 
 export const successModalStyles = StyleSheet.create({
   modalOverlay: {
@@ -93,11 +94,11 @@ export const successModalStyles = StyleSheet.create({
   },
   
   modalButtonLight: {
-    backgroundColor: '#C52222',
+    backgroundColor: colors.primary.red.light,
   },
   
   modalButtonDark: {
-    backgroundColor: '#DE4A4A',
+    backgroundColor: colors.primary.red.dark,
   },
   
   modalButtonText: {

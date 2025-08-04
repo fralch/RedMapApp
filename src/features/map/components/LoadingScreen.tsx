@@ -3,6 +3,7 @@ import { View, Text, Animated, Easing } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { loadingScreenStyles } from '../styles/LoadingScreen.styles';
+import { getPrimaryRed } from '../../../styles/colors';
 
 interface LoadingScreenProps {
   isDarkMode: boolean;
@@ -100,7 +101,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             <Ionicons 
               name="location" 
               size={48} 
-              color={isDarkMode ? "#FF4444" : "#FF0000"}
+              color={getPrimaryRed(isDarkMode)}
             />
           </Animated.View>
 

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { errorScreenStyles } from '../styles/ErrorScreen.styles';
+import { getPrimaryRed } from '../../../styles/colors';
 
 interface ErrorScreenProps {
   isDarkMode: boolean;
@@ -101,9 +102,9 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({
             { transform: [{ translateX: shakeAnim }] }
           ]}>
             <Ionicons 
-              name="location-off" 
+              name="location-outline" 
               size={48} 
-              color={isDarkMode ? "#ff6b6b" : "#d32f2f"} 
+              color={getPrimaryRed(isDarkMode)} 
             />
           </Animated.View>
 

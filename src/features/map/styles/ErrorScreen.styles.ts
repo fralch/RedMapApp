@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../../styles/colors';
 
 export const errorScreenStyles = StyleSheet.create({
   container: {
@@ -30,10 +31,10 @@ export const errorScreenStyles = StyleSheet.create({
     top: -50,
   },
   backgroundCircleLight: {
-    backgroundColor: '#d32f2f',
+    backgroundColor: colors.primary.red.light,
   },
   backgroundCircleDark: {
-    backgroundColor: '#ff6b6b',
+    backgroundColor: colors.primary.red.dark,
   },
   iconContainer: {
     width: 80,
@@ -52,10 +53,10 @@ export const errorScreenStyles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   iconContainerLight: {
-    backgroundColor: 'rgba(211, 47, 47, 0.1)',
+    backgroundColor: 'rgba(220, 38, 38, 0.1)',
   },
   iconContainerDark: {
-    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
   },
   title: {
     fontSize: 22,
@@ -90,22 +91,22 @@ export const errorScreenStyles = StyleSheet.create({
     fontWeight: '400',
   },
   errorContainer: {
-    backgroundColor: 'rgba(211, 47, 47, 0.1)',
+    backgroundColor: 'rgba(220, 38, 38, 0.1)',
     borderRadius: 8,
     padding: 12,
     marginBottom: 24,
     borderLeftWidth: 4,
-    borderLeftColor: '#d32f2f',
+    borderLeftColor: colors.primary.red.light,
   },
   errorText: {
     fontSize: 14,
-    color: '#d32f2f',
+    color: colors.primary.red.light,
     textAlign: 'center',
     fontWeight: '500',
   },
   errorTextDark: {
     fontSize: 14,
-    color: '#ff6b6b',
+    color: colors.primary.red.dark,
     textAlign: 'center',
     fontWeight: '500',
   },

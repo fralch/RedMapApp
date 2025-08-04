@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../../styles/colors';
 
 export const mapScreenStyles = StyleSheet.create({
   container: {
@@ -204,10 +205,10 @@ locationButtonDark: {
     shadowRadius: 3,
   },
   modalButtonLight: {
-    backgroundColor: '#DC3545',
+    backgroundColor: colors.primary.red.light,
   },
   modalButtonDark: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: colors.primary.red.dark,
   },
   modalButtonText: {
     fontSize: 16,

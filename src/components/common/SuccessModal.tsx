@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { successModalStyles } from '../../styles/SuccessModal.styles';
+import { getPrimaryRed } from '../../styles/colors';
 
 interface SuccessModalProps {
   visible: boolean;
@@ -38,7 +39,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
               <Ionicons
                 name="checkmark-circle"
                 size={32}
-                color={isDarkMode ? '#FF6B6B' : '#FF4444'}
+                color={getPrimaryRed(isDarkMode)}
               />
             </View>
             <Text style={[

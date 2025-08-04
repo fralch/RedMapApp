@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { authModalStyles } from '../styles/AuthModal.styles';
+import { getPrimaryRed } from '../../../styles/colors';
 
 interface AuthModalProps {
   visible: boolean;
@@ -180,7 +181,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
                 onPress={handleGoogleLogin}
                 activeOpacity={0.9}
               >
-                <Ionicons name="logo-google" size={26} color={isDarkMode ? '#EF4444' : '#DC2626'} />
+                <Ionicons name="logo-google" size={26} color={getPrimaryRed(isDarkMode)} />
                 <Text style={[
                   authModalStyles.buttonText,
                   isDarkMode ? authModalStyles.buttonTextDark : authModalStyles.buttonTextLight

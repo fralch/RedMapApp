@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { colors } from '../../../styles/colors';
 
 const { width, height } = Dimensions.get('window');
 
@@ -47,10 +48,10 @@ export const authModalStyles = StyleSheet.create({
     borderRadius: 3,
   },
   handleBarLight: {
-    backgroundColor: '#DC2626',
+    backgroundColor: colors.primary.red.light,
   },
   handleBarDark: {
-    backgroundColor: '#EF4444',
+    backgroundColor: colors.primary.red.dark,
   },
   header: {
     alignItems: 'center',
@@ -65,10 +66,10 @@ export const authModalStyles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   titleLight: {
-    color: '#DC2626',
+    color: colors.primary.red.light,
   },
   titleDark: {
-    color: '#EF4444',
+    color: colors.primary.red.dark,
   },
   subtitle: {
     fontSize: 17,
@@ -110,7 +111,7 @@ export const authModalStyles = StyleSheet.create({
   },
   googleButtonLight: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#DC2626',
+    borderColor: colors.primary.red.light,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -121,7 +122,7 @@ export const authModalStyles = StyleSheet.create({
   },
   googleButtonDark: {
     backgroundColor: '#2a2a2a',
-    borderColor: '#EF4444',
+    borderColor: colors.primary.red.dark,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -135,10 +136,10 @@ export const authModalStyles = StyleSheet.create({
     borderWidth: 0,
   },
   createAccountButtonLight: {
-    backgroundColor: '#DC2626',
+    backgroundColor: colors.primary.red.light,
   },
   createAccountButtonDark: {
-    backgroundColor: '#EF4444',
+    backgroundColor: colors.primary.red.dark,
   },
   buttonText: {
     fontSize: 17,
@@ -146,10 +147,10 @@ export const authModalStyles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   buttonTextLight: {
-    color: '#DC2626',
+    color: colors.primary.red.light,
   },
   buttonTextDark: {
-    color: '#EF4444',
+    color: colors.primary.red.dark,
   },
   createAccountButtonText: {
     fontSize: 16,
