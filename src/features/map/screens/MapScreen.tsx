@@ -8,12 +8,24 @@ import { mapScreenStyles, darkMapStyle, lightMapStyle } from '../styles';
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
 import AuthModal from '../../auth/components/AuthModal';
+import SuccessModal from '../../../components/common/SuccessModal';
 import coordinates from '../data/coordinates.json';
+
+interface UserHotPoint {
+  id: string;
+  latitude: number;
+  longitude: number;
+  timestamp: number;
+}
 
 const MapScreen: React.FC = () => {
   const mapRef = useRef<MapView>(null);
   const [isAuthModalVisible, setIsAuthModalVisible] = useState(false);
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+  const [pendingCoordinate, setPendingCoordinate] = useState<{latitude: number, longitude: number} | null>(null);
+  const [userHotPoints, setUserHotPoints] = useState<UserHotPoint[]>([]);
   const {
     userLocation,
     isLoadingLocation,
@@ -52,6 +64,35 @@ const MapScreen: React.FC = () => {
     }
   };
 
+  const handleLongPress = (event: any) => {
+    const { coordinate } = event.nativeEvent;
+    setPendingCoordinate(coordinate);
+    setIsConfirmModalVisible(true);
+  };
+
+  const handleConfirmAddHotPoint = () => {
+    if (pendingCoordinate) {
+      const newHotPoint: UserHotPoint = {
+        id: `hotpoint_${Date.now()}`,
+        latitude: pendingCoordinate.latitude,
+        longitude: pendingCoordinate.longitude,
+        timestamp: Date.now(),
+      };
+      
+      setUserHotPoints(prevPoints => [...prevPoints, newHotPoint]);
+      setIsConfirmModalVisible(false);
+      setPendingCoordinate(null);
+      
+      // Mostrar modal de éxito
+      setIsSuccessModalVisible(true);
+    }
+  };
+
+  const handleCancelAddHotPoint = () => {
+    setIsConfirmModalVisible(false);
+    setPendingCoordinate(null);
+  };
+
   if (isLoadingLocation) {
     return <LoadingScreen isDarkMode={isDarkMode} />;
   }
@@ -86,6 +127,7 @@ const MapScreen: React.FC = () => {
           showsUserLocation={true}
           showsMyLocationButton={false} // Desactivamos el botón nativo
           followsUserLocation={false} // Cambiado a false para control manual
+          onLongPress={handleLongPress}
         >
           <Marker
             coordinate={{
@@ -95,8 +137,12 @@ const MapScreen: React.FC = () => {
             title="Mi ubicación"
             description="Estás aquí"
           />
+          
           <Heatmap
-            points={coordinates.map(c => ({ latitude: c.latitud, longitude: c.longitud, weight: 1 }))}
+            points={[
+              ...coordinates.map(c => ({ latitude: c.latitud, longitude: c.longitud, weight: 1 })),
+              ...userHotPoints.map(point => ({ latitude: point.latitude, longitude: point.longitude, weight: 1 }))
+            ]}
             radius={30}
             opacity={0.3}
             gradient={{
@@ -193,7 +239,7 @@ const MapScreen: React.FC = () => {
               </View>
               
               <Text style={[mapScreenStyles.modalMessage, isDarkMode ? mapScreenStyles.modalMessageDark : mapScreenStyles.modalMessageLight]}>
-                Para agregar un nuevo punto de calor, simplemente presiona cualquier punto en la pantalla del mapa donde desees marcarlo.
+                Para agregar un nuevo punto de calor, mantén presionado (long press) cualquier punto en la pantalla del mapa donde desees marcarlo.
               </Text>
               
               <TouchableOpacity
@@ -208,6 +254,86 @@ const MapScreen: React.FC = () => {
             </View>
           </View>
         </Modal>
+
+        {/* Modal de Confirmación para Agregar Hot Point */}
+        <Modal
+          visible={isConfirmModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={handleCancelAddHotPoint}
+        >
+          <View style={mapScreenStyles.modalOverlay}>
+            <View style={[mapScreenStyles.confirmModalContainer, isDarkMode ? mapScreenStyles.modalContainerDark : mapScreenStyles.modalContainerLight]}>
+              <View style={mapScreenStyles.confirmModalHeader}>
+                <View style={[mapScreenStyles.confirmIconContainer, isDarkMode ? mapScreenStyles.confirmIconContainerDark : mapScreenStyles.confirmIconContainerLight]}>
+                  <Ionicons
+                    name="location"
+                    size={28}
+                    color={isDarkMode ? '#FF6B6B' : '#DC3545'}
+                  />
+                </View>
+                <Text style={[mapScreenStyles.confirmModalTitle, isDarkMode ? mapScreenStyles.modalTitleDark : mapScreenStyles.modalTitleLight]}>
+                  Confirmar Hot Point
+                </Text>
+              </View>
+              
+              <Text style={[mapScreenStyles.confirmModalMessage, isDarkMode ? mapScreenStyles.modalMessageDark : mapScreenStyles.modalMessageLight]}>
+                ¿Deseas agregar un punto de calor en esta ubicación?
+              </Text>
+              
+              {pendingCoordinate && (
+                 <View style={[mapScreenStyles.coordinatesContainer, isDarkMode ? mapScreenStyles.coordinatesContainerDark : mapScreenStyles.coordinatesContainerLight]}>
+                  <View style={mapScreenStyles.coordinateRow}>
+                    <Ionicons name="compass" size={16} color={isDarkMode ? '#CCC' : '#666'} />
+                    <Text style={[mapScreenStyles.coordinateLabel, isDarkMode ? mapScreenStyles.coordinateLabelDark : mapScreenStyles.coordinateLabelLight]}>Latitud:</Text>
+                    <Text style={[mapScreenStyles.coordinateValue, isDarkMode ? mapScreenStyles.coordinateValueDark : mapScreenStyles.coordinateValueLight]}>
+                      {pendingCoordinate.latitude.toFixed(6)}
+                    </Text>
+                  </View>
+                  <View style={mapScreenStyles.coordinateRow}>
+                    <Ionicons name="compass" size={16} color={isDarkMode ? '#CCC' : '#666'} />
+                    <Text style={[mapScreenStyles.coordinateLabel, isDarkMode ? mapScreenStyles.coordinateLabelDark : mapScreenStyles.coordinateLabelLight]}>Longitud:</Text>
+                    <Text style={[mapScreenStyles.coordinateValue, isDarkMode ? mapScreenStyles.coordinateValueDark : mapScreenStyles.coordinateValueLight]}>
+                      {pendingCoordinate.longitude.toFixed(6)}
+                    </Text>
+                  </View>
+                </View>
+              )}
+              
+              <View style={mapScreenStyles.confirmModalButtons}>
+                <TouchableOpacity
+                  style={[mapScreenStyles.cancelButton, isDarkMode ? mapScreenStyles.cancelButtonDark : mapScreenStyles.cancelButtonLight]}
+                  onPress={handleCancelAddHotPoint}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[mapScreenStyles.cancelButtonText, isDarkMode ? mapScreenStyles.cancelButtonTextDark : mapScreenStyles.cancelButtonTextLight]}>
+                    Cancelar
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={[mapScreenStyles.confirmButton, isDarkMode ? mapScreenStyles.modalButtonDark : mapScreenStyles.modalButtonLight]}
+                  onPress={handleConfirmAddHotPoint}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="add-circle" size={18} color="#FFF" style={mapScreenStyles.buttonIcon} />
+                  <Text style={[mapScreenStyles.confirmButtonText, isDarkMode ? mapScreenStyles.modalButtonTextDark : mapScreenStyles.modalButtonTextLight]}>
+                    Agregar
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Modal de Éxito */}
+        <SuccessModal
+          visible={isSuccessModalVisible}
+          title="Hot Point Agregado"
+          message="El punto de calor ha sido agregado exitosamente."
+          onClose={() => setIsSuccessModalVisible(false)}
+          isDarkMode={isDarkMode}
+        />
       </View>
     </>
   );

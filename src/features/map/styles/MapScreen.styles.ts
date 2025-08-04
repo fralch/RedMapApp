@@ -219,4 +219,170 @@ locationButtonDark: {
   modalButtonTextDark: {
     color: '#FFF',
   },
+  
+  // Estilos para el modal de confirmación
+  confirmModalContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 24,
+    margin: 20,
+    maxWidth: 340,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  
+  confirmModalHeader: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  
+  confirmIconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#F8F9FA',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  
+  confirmIconContainerLight: {
+    backgroundColor: '#F8F9FA',
+  },
+  
+  confirmIconContainerDark: {
+    backgroundColor: '#2A2A2A',
+  },
+  
+  confirmModalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  
+  confirmModalMessage: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+  
+  coordinatesContainer: {
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
+  },
+  
+  coordinatesContainerLight: {
+    backgroundColor: '#F8F9FA',
+  },
+  
+  coordinatesContainerDark: {
+    backgroundColor: '#2A2A2A',
+  },
+  
+  coordinateRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  
+  coordinateLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginLeft: 8,
+    marginRight: 8,
+    minWidth: 70,
+  },
+  
+  coordinateLabelLight: {
+    color: '#495057',
+  },
+  
+  coordinateLabelDark: {
+    color: '#CED4DA',
+  },
+  
+  coordinateValue: {
+    fontSize: 14,
+    fontFamily: 'monospace',
+    flex: 1,
+  },
+  
+  coordinateValueLight: {
+    color: '#212529',
+  },
+  
+  coordinateValueDark: {
+    color: '#F8F9FA',
+  },
+  
+  confirmModalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  
+  cancelButton: {
+    flex: 1,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#DEE2E6',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  
+  cancelButtonLight: {
+    borderColor: '#DEE2E6',
+    backgroundColor: 'transparent',
+  },
+  
+  cancelButtonDark: {
+    borderColor: '#495057',
+    backgroundColor: 'transparent',
+  },
+  
+  cancelButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  
+  cancelButtonTextLight: {
+    color: '#6C757D',
+  },
+  
+  cancelButtonTextDark: {
+    color: '#ADB5BD',
+  },
+  
+  confirmButton: {
+    flex: 1,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  
+  confirmButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 6,
+  },
+  
+  buttonIcon: {
+    marginRight: 2,
+  },
 });
