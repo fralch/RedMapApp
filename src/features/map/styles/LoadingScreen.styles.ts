@@ -14,7 +14,7 @@ export const loadingScreenStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0d1117',
+    backgroundColor: '#170d0d',
     paddingHorizontal: 20,
   },
   content: {
@@ -31,10 +31,10 @@ export const loadingScreenStyles = StyleSheet.create({
     top: -50,
   },
   backgroundCircleLight: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#DC2626',
   },
   backgroundCircleDark: {
-    backgroundColor: '#64B5F6',
+    backgroundColor: '#EF4444',
   },
   iconContainer: {
     width: 80,
@@ -42,7 +42,7 @@ export const loadingScreenStyles = StyleSheet.create({
     borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(100, 181, 246, 0.1)',
+    backgroundColor: 'rgba(246, 100, 100, 0.1)',
     marginBottom: 30,
     elevation: 3,
     shadowColor: '#000',
@@ -66,10 +66,10 @@ export const loadingScreenStyles = StyleSheet.create({
     borderRadius: 4,
   },
   dotLight: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#DC2626',
   },
   dotDark: {
-    backgroundColor: '#64B5F6',
+    backgroundColor: '#EF4444',
   },
   text: {
     fontSize: 18,

@@ -100,7 +100,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             <Ionicons 
               name="location" 
               size={48} 
-              color={isDarkMode ? "#64B5F6" : "#007AFF"} 
+              color={isDarkMode ? "#FF4444" : "#FF0000"}
             />
           </Animated.View>
 
