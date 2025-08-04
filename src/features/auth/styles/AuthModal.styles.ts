@@ -5,26 +5,35 @@ const { width, height } = Dimensions.get('window');
 export const authModalStyles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'flex-end',
   },
   overlayTouchable: {
     flex: 1,
   },
   modalContainer: {
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: 20,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    paddingHorizontal: 24,
     paddingBottom: 40,
     paddingTop: 10,
     minHeight: height * 0.45,
     maxHeight: height * 0.65,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: -4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 10,
   },
   modalContainerLight: {
     backgroundColor: '#FFFFFF',
+    borderTopWidth: 3
   },
   modalContainerDark: {
     backgroundColor: '#1a1a1a',
+    borderTopWidth: 3
   },
   dragArea: {
     paddingVertical: 15,
@@ -33,36 +42,39 @@ export const authModalStyles = StyleSheet.create({
     marginBottom: 5,
   },
   handleBar: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
+    width: 50,
+    height: 5,
+    borderRadius: 3,
   },
   handleBarLight: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#DC2626',
   },
   handleBarDark: {
-    backgroundColor: '#555',
+    backgroundColor: '#EF4444',
   },
   header: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
+    paddingTop: 10,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontSize: 28,
+    fontWeight: '800',
+    marginBottom: 12,
     textAlign: 'center',
+    letterSpacing: 0.5,
   },
   titleLight: {
-    color: '#1a1a1a',
+    color: '#DC2626',
   },
   titleDark: {
-    color: '#FFFFFF',
+    color: '#EF4444',
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 17,
     textAlign: 'center',
-    lineHeight: 22,
+    lineHeight: 24,
+    fontWeight: '500',
   },
   subtitleLight: {
     color: '#666666',
@@ -72,35 +84,51 @@ export const authModalStyles = StyleSheet.create({
   },
   buttonsContainer: {
     justifyContent: 'flex-start',
-    gap: 16,
+    gap: 20,
+    paddingHorizontal: 4,
   },
   authButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    gap: 12,
-    elevation: 2,
+    paddingVertical: 18,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    gap: 14,
+    elevation: 6,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    transform: [{ scale: 1 }],
   },
   googleButton: {
-    borderWidth: 1,
+    borderWidth: 2,
   },
   googleButtonLight: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#E0E0E0',
+    borderColor: '#DC2626',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
   },
   googleButtonDark: {
     backgroundColor: '#2a2a2a',
-    borderColor: '#444',
+    borderColor: '#EF4444',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
   },
 
   createAccountButton: {
@@ -113,14 +141,15 @@ export const authModalStyles = StyleSheet.create({
     backgroundColor: '#EF4444',
   },
   buttonText: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   buttonTextLight: {
-    color: '#333333',
+    color: '#DC2626',
   },
   buttonTextDark: {
-    color: '#FFFFFF',
+    color: '#EF4444',
   },
   createAccountButtonText: {
     fontSize: 16,
@@ -159,13 +188,16 @@ export const authModalStyles = StyleSheet.create({
     color: '#CCCCCC',
   },
   footer: {
-    marginTop: 20,
-    paddingTop: 20,
+    marginTop: 30,
+    paddingTop: 24,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(220, 38, 38, 0.1)',
   },
   footerText: {
-    fontSize: 12,
+    fontSize: 13,
     textAlign: 'center',
-    lineHeight: 18,
+    lineHeight: 20,
+    fontWeight: '500',
   },
   footerTextLight: {
     color: '#999999',

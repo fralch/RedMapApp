@@ -23,6 +23,8 @@ const { height: screenHeight } = Dimensions.get('window');
 const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) => {
   const slideAnim = useRef(new Animated.Value(screenHeight)).current;
   const panY = useRef(new Animated.Value(0)).current;
+  const buttonScale = useRef(new Animated.Value(1)).current;
+  const titleOpacity = useRef(new Animated.Value(0)).current;
 
   const panResponder = useRef(
     PanResponder.create({
@@ -64,11 +66,21 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
 
   useEffect(() => {
     if (visible) {
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
+      Animated.parallel([
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(titleOpacity, {
+          toValue: 1,
+          duration: 500,
+          delay: 200,
+          useNativeDriver: true,
+        })
+      ]).start();
+    } else {
+      titleOpacity.setValue(0);
     }
   }, [visible]);
 
@@ -84,14 +96,22 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
   };
 
   const handleGoogleLogin = () => {
+    // Animación de presión del botón
+    Animated.sequence([
+      Animated.timing(buttonScale, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(buttonScale, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      })
+    ]).start();
+    
     Alert.alert('Iniciar Sesión con Google', 'Funcionalidad de Google Auth pendiente de implementar');
   };
-
-  const handleCreateAccount = () => {
-    Alert.alert('Crear Cuenta', 'Funcionalidad de registro pendiente de implementar');
-  };
-
-
 
   return (
     <Modal
@@ -131,78 +151,46 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
 
           {/* Header */}
           <View style={authModalStyles.header}>
-            <Text style={[
+            <Animated.Text style={[
               authModalStyles.title,
-              isDarkMode ? authModalStyles.titleDark : authModalStyles.titleLight
+              isDarkMode ? authModalStyles.titleDark : authModalStyles.titleLight,
+              { opacity: titleOpacity }
             ]}>
               Bienvenido a RedMap
-            </Text>
-            <Text style={[
+            </Animated.Text>
+            <Animated.Text style={[
               authModalStyles.subtitle,
-              isDarkMode ? authModalStyles.subtitleDark : authModalStyles.subtitleLight
+              isDarkMode ? authModalStyles.subtitleDark : authModalStyles.subtitleLight,
+              { opacity: titleOpacity }
             ]}>
-              Inicia sesión o crea una cuenta para continuar
-            </Text>
+              Inicia sesión para continuar
+            </Animated.Text>
           </View>
 
           {/* Botones de autenticación */}
           <View style={authModalStyles.buttonsContainer}>
             {/* Botón de Google */}
-            <TouchableOpacity
-              style={[
-                authModalStyles.authButton,
-                authModalStyles.googleButton,
-                isDarkMode ? authModalStyles.googleButtonDark : authModalStyles.googleButtonLight
-              ]}
-              onPress={handleGoogleLogin}
-              activeOpacity={0.8}
-            >
-              <Ionicons name="logo-google" size={24} color={isDarkMode ? '#FFF' : '#4285F4'} />
-              <Text style={[
-                authModalStyles.buttonText,
-                isDarkMode ? authModalStyles.buttonTextDark : authModalStyles.buttonTextLight
-              ]}>
-                Continuar con Google
-              </Text>
-            </TouchableOpacity>
+            <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
+              <TouchableOpacity
+                style={[
+                  authModalStyles.authButton,
+                  authModalStyles.googleButton,
+                  isDarkMode ? authModalStyles.googleButtonDark : authModalStyles.googleButtonLight
+                ]}
+                onPress={handleGoogleLogin}
+                activeOpacity={0.9}
+              >
+                <Ionicons name="logo-google" size={26} color={isDarkMode ? '#EF4444' : '#DC2626'} />
+                <Text style={[
+                  authModalStyles.buttonText,
+                  isDarkMode ? authModalStyles.buttonTextDark : authModalStyles.buttonTextLight
+                ]}>
+                  Continuar con Google
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
 
-            {/* Separador */}
-            <View style={authModalStyles.separatorContainer}>
-              <View style={[
-                authModalStyles.separatorLine,
-                isDarkMode ? authModalStyles.separatorLineDark : authModalStyles.separatorLineLight
-              ]} />
-              <Text style={[
-                authModalStyles.separatorText,
-                isDarkMode ? authModalStyles.separatorTextDark : authModalStyles.separatorTextLight
-              ]}>
-                o
-              </Text>
-              <View style={[
-                authModalStyles.separatorLine,
-                isDarkMode ? authModalStyles.separatorLineDark : authModalStyles.separatorLineLight
-              ]} />
-            </View>
 
-            {/* Botón de crear cuenta */}
-            <TouchableOpacity
-              style={[
-                authModalStyles.authButton,
-                authModalStyles.createAccountButton,
-                isDarkMode ? authModalStyles.createAccountButtonDark : authModalStyles.createAccountButtonLight
-              ]}
-              onPress={handleCreateAccount}
-              activeOpacity={0.8}
-            >
-              <Ionicons name="person-add" size={24} color={isDarkMode ? '#333' : '#FFF'} />
-              <Text style={[
-                authModalStyles.buttonText,
-                authModalStyles.createAccountButtonText,
-                isDarkMode ? authModalStyles.createAccountButtonTextDark : authModalStyles.createAccountButtonTextLight
-              ]}>
-                Crear nueva cuenta
-              </Text>
-            </TouchableOpacity>
           </View>
 
           {/* Footer */}
