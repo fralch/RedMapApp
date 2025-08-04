@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Alert, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,10 +7,12 @@ import { useMapStore } from '../store/mapStore';
 import { mapScreenStyles, darkMapStyle, lightMapStyle } from '../styles';
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
+import AuthModal from '../../auth/components/AuthModal';
 import coordinates from '../data/coordinates.json';
 
 const MapScreen: React.FC = () => {
   const mapRef = useRef<MapView>(null);
+  const [isAuthModalVisible, setIsAuthModalVisible] = useState(false);
   const {
     userLocation,
     isLoadingLocation,
@@ -151,7 +153,7 @@ const MapScreen: React.FC = () => {
         {/* Botón para gestión de usuario - Centro Inferior Derecha */}
         <TouchableOpacity
           style={[mapScreenStyles.userManagementButton, isDarkMode ? mapScreenStyles.userManagementButtonDark : mapScreenStyles.userManagementButtonLight]}
-          onPress={() => Alert.alert('Gestión de Usuario', 'Funcionalidad para gestionar el perfil de usuario')}
+          onPress={() => setIsAuthModalVisible(true)}
           activeOpacity={0.7}
         >
           <Ionicons
@@ -160,6 +162,13 @@ const MapScreen: React.FC = () => {
             color={isDarkMode ? '#FFF' : '#000'}
           />
         </TouchableOpacity>
+
+        {/* Modal de Autenticación */}
+        <AuthModal
+          visible={isAuthModalVisible}
+          onClose={() => setIsAuthModalVisible(false)}
+          isDarkMode={isDarkMode}
+        />
       </View>
     </>
   );
