@@ -26,12 +26,16 @@ export const authModalStyles = StyleSheet.create({
   modalContainerDark: {
     backgroundColor: '#1a1a1a',
   },
+  dragArea: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    marginBottom: 5,
+  },
   handleBar: {
     width: 40,
     height: 4,
     borderRadius: 2,
-    alignSelf: 'center',
-    marginBottom: 20,
   },
   handleBarLight: {
     backgroundColor: '#E0E0E0',

@@ -26,8 +26,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
 
   const panResponder = useRef(
     PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: (_, gestureState) => {
-        return gestureState.dy > 0 && Math.abs(gestureState.dy) > Math.abs(gestureState.dx);
+        return Math.abs(gestureState.dy) > Math.abs(gestureState.dx) && Math.abs(gestureState.dy) > 5;
+      },
+      onPanResponderGrant: () => {
+        panY.setOffset(panY._value);
+        panY.setValue(0);
       },
       onPanResponderMove: (_, gestureState) => {
         if (gestureState.dy > 0) {
@@ -35,14 +40,24 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
         }
       },
       onPanResponderRelease: (_, gestureState) => {
-        if (gestureState.dy > 100 || gestureState.vy > 0.5) {
+        panY.flattenOffset();
+        if (gestureState.dy > 100 || gestureState.vy > 0.8) {
           closeModal();
         } else {
           Animated.spring(panY, {
             toValue: 0,
             useNativeDriver: true,
+            tension: 100,
+            friction: 8,
           }).start();
         }
+      },
+      onPanResponderTerminate: () => {
+        panY.flattenOffset();
+        Animated.spring(panY, {
+          toValue: 0,
+          useNativeDriver: true,
+        }).start();
       },
     })
   ).current;
@@ -104,13 +119,17 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
               ],
             },
           ]}
-          {...panResponder.panHandlers}
         >
-          {/* Handle bar para indicar que se puede deslizar */}
-          <View style={[
-            authModalStyles.handleBar,
-            isDarkMode ? authModalStyles.handleBarDark : authModalStyles.handleBarLight
-          ]} />
+          {/* Área de deslizamiento con handle bar */}
+          <View 
+            style={authModalStyles.dragArea}
+            {...panResponder.panHandlers}
+          >
+            <View style={[
+              authModalStyles.handleBar,
+              isDarkMode ? authModalStyles.handleBarDark : authModalStyles.handleBarLight
+            ]} />
+          </View>
 
           {/* Header */}
           <View style={authModalStyles.header}>
