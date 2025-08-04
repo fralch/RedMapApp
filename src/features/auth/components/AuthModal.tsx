@@ -91,9 +91,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
     Alert.alert('Crear Cuenta', 'Funcionalidad de registro pendiente de implementar');
   };
 
-  const handleEmailLogin = () => {
-    Alert.alert('Iniciar Sesión con Email', 'Funcionalidad de login con email pendiente de implementar');
-  };
+
 
   return (
     <Modal
@@ -165,25 +163,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ visible, onClose, isDarkMode }) =
                 isDarkMode ? authModalStyles.buttonTextDark : authModalStyles.buttonTextLight
               ]}>
                 Continuar con Google
-              </Text>
-            </TouchableOpacity>
-
-            {/* Botón de Email */}
-            <TouchableOpacity
-              style={[
-                authModalStyles.authButton,
-                authModalStyles.emailButton,
-                isDarkMode ? authModalStyles.emailButtonDark : authModalStyles.emailButtonLight
-              ]}
-              onPress={handleEmailLogin}
-              activeOpacity={0.8}
-            >
-              <Ionicons name="mail" size={24} color={isDarkMode ? '#FFF' : '#333'} />
-              <Text style={[
-                authModalStyles.buttonText,
-                isDarkMode ? authModalStyles.buttonTextDark : authModalStyles.buttonTextLight
-              ]}>
-                Iniciar sesión con Email
               </Text>
             </TouchableOpacity>
 

@@ -17,8 +17,8 @@ export const authModalStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 40,
     paddingTop: 10,
-    minHeight: height * 0.6,
-    maxHeight: height * 0.8,
+    minHeight: height * 0.45,
+    maxHeight: height * 0.65,
   },
   modalContainerLight: {
     backgroundColor: '#FFFFFF',
@@ -45,7 +45,7 @@ export const authModalStyles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
   },
   title: {
     fontSize: 24,
@@ -71,8 +71,7 @@ export const authModalStyles = StyleSheet.create({
     color: '#CCCCCC',
   },
   buttonsContainer: {
-    flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     gap: 16,
   },
   authButton: {
@@ -103,17 +102,7 @@ export const authModalStyles = StyleSheet.create({
     backgroundColor: '#2a2a2a',
     borderColor: '#444',
   },
-  emailButton: {
-    borderWidth: 1,
-  },
-  emailButtonLight: {
-    backgroundColor: '#F8F9FA',
-    borderColor: '#E0E0E0',
-  },
-  emailButtonDark: {
-    backgroundColor: '#2a2a2a',
-    borderColor: '#444',
-  },
+
   createAccountButton: {
     borderWidth: 0,
   },
