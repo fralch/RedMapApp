@@ -71,12 +71,16 @@ interface LeafletMapViewProps {
   style?: any;
   heatmapOptions?: {
     radius?: number;
+    blur?: number;
+    maxZoom?: number;
+    max?: number;
     maxOpacity?: number;
     scaleRadius?: boolean;
     useLocalExtrema?: boolean;
     latField?: string;
     lngField?: string;
     valueField?: string;
+    gradient?: { [key: string]: string };
   };
 }
 
@@ -126,24 +130,24 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
   if (Platform.OS === 'web') {
     const defaultHeatmapOptions = {
       radius: isDarkMode ? 30 : 25,
-      blur: 15,
+      blur: 8,
       maxZoom: 17,
       max: 1.0,
       gradient: isDarkMode 
         ? {
-            0.0: '#000428',
-            0.2: '#004e92', 
-            0.4: '#009ffd',
-            0.6: '#00d2ff',
-            0.8: '#ff6b6b',
-            1.0: '#ff3838'
+            0.0: 'rgba(255, 0, 0, 0.1)',
+            0.2: 'rgba(255, 0, 0, 0.3)', 
+            0.4: 'rgba(255, 0, 0, 0.5)',
+            0.6: 'rgba(255, 0, 0, 0.7)',
+            0.8: 'rgba(255, 0, 0, 0.9)',
+            1.0: '#ff0000'
           }
         : {
-            0.0: '#313695',
-            0.25: '#4575b4', 
-            0.5: '#74add1',
-            0.75: '#abd9e9',
-            1.0: '#e0f3f8'
+            0.0: 'rgba(255, 0, 0, 0.2)',
+            0.25: 'rgba(255, 0, 0, 0.4)', 
+            0.5: 'rgba(255, 0, 0, 0.6)',
+            0.75: 'rgba(255, 0, 0, 0.8)',
+            1.0: '#ff0000'
           },
       ...heatmapOptions
     };
@@ -155,12 +159,12 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
         style={style}
         ref={mapRef}
         eventHandlers={{
-          click: (e) => {
+          click: (e: { latlng: { lat: number; lng: number } }) => {
             if (onMapPress) {
               onMapPress({ latitude: e.latlng.lat, longitude: e.latlng.lng });
             }
           },
-          contextmenu: (e) => {
+          contextmenu: (e: { latlng: { lat: number; lng: number } }) => {
             if (onLongPress) {
               onLongPress({ latitude: e.latlng.lat, longitude: e.latlng.lng });
             }
@@ -212,7 +216,7 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
 
     const defaultHeatmapOptions = {
       radius: isDarkMode ? 30 : 25,
-      blur: 15,
+      blur: 8,
       maxZoom: 17,
       max: 1.0,
       ...heatmapOptions
@@ -232,19 +236,19 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
         max: ${defaultHeatmapOptions.max},
         gradient: ${isDarkMode 
           ? `{
-              0.0: '#000428',
-              0.2: '#004e92', 
-              0.4: '#009ffd',
-              0.6: '#00d2ff',
-              0.8: '#ff6b6b',
-              1.0: '#ff3838'
+              0.0: 'rgba(255, 0, 0, 0.1)',
+              0.2: 'rgba(255, 0, 0, 0.3)', 
+              0.4: 'rgba(255, 0, 0, 0.5)',
+              0.6: 'rgba(255, 0, 0, 0.7)',
+              0.8: 'rgba(255, 0, 0, 0.9)',
+              1.0: '#ff0000'
             }`
           : `{
-              0.0: '#313695',
-              0.25: '#4575b4', 
-              0.5: '#74add1',
-              0.75: '#abd9e9',
-              1.0: '#e0f3f8'
+              0.0: 'rgba(255, 0, 0, 0.2)',
+              0.25: 'rgba(255, 0, 0, 0.4)', 
+              0.5: 'rgba(255, 0, 0, 0.6)',
+              0.75: 'rgba(255, 0, 0, 0.8)',
+              1.0: '#ff0000'
             }`
         }
       }).addTo(map);

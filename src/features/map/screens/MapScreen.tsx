@@ -8,7 +8,6 @@ import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
 import AuthModal from '../../auth/components/AuthModal';
 import SuccessModal from '../../../components/common/SuccessModal';
-import HeatmapStats from '../components/HeatmapStats';
 import { getPrimaryRed } from '../../../styles/colors';
 import coordinates from '../data/coordinates.json';
 import LeafletMapView from '../components/LeafletMapView';
@@ -122,7 +121,7 @@ const MapScreen: React.FC = () => {
             latitude: userLocation.latitude,
             longitude: userLocation.longitude,
           }}
-          zoom={13}
+          zoom={16}
           isDarkMode={isDarkMode}
           style={mapScreenStyles.map}
           markers={[
@@ -166,14 +165,6 @@ const MapScreen: React.FC = () => {
             max: 2.0,
           }}
           onLongPress={handleLongPress}
-        />
-
-        {/* Estadísticas del Heatmap */}
-        <HeatmapStats
-          totalPoints={coordinates.length + userHotPoints.length}
-          userPoints={userHotPoints.length}
-          isDarkMode={isDarkMode}
-          visible={true}
         />
         
         {/* Botón para centrar en la ubicación - Inferior Izquierda */}
