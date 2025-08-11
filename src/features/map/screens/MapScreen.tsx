@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Alert, Text, TouchableOpacity, Modal } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useMapStore } from '../store/mapStore';
-import { mapScreenStyles, darkMapStyle, lightMapStyle } from '../styles';
+import { mapScreenStyles } from '../styles';
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
 import AuthModal from '../../auth/components/AuthModal';
 import SuccessModal from '../../../components/common/SuccessModal';
+import HeatmapStats from '../components/HeatmapStats';
 import { getPrimaryRed } from '../../../styles/colors';
 import coordinates from '../data/coordinates.json';
+import LeafletMapView from '../components/LeafletMapView';
 
 interface UserHotPoint {
   id: string;
@@ -20,13 +21,14 @@ interface UserHotPoint {
 }
 
 const MapScreen: React.FC = () => {
-  const mapRef = useRef<MapView>(null);
+  const mapRef = useRef<any>(null);
   const [isAuthModalVisible, setIsAuthModalVisible] = useState(false);
   const [isInfoModalVisible, setIsInfoModalVisible] = useState(false);
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const [pendingCoordinate, setPendingCoordinate] = useState<{latitude: number, longitude: number} | null>(null);
   const [userHotPoints, setUserHotPoints] = useState<UserHotPoint[]>([]);
+  const [mapCenter, setMapCenter] = useState<{latitude: number, longitude: number} | null>(null);
   const {
     userLocation,
     isLoadingLocation,
@@ -55,18 +57,21 @@ const MapScreen: React.FC = () => {
   }, [error, setError]);
 
   const centerOnUserLocation = () => {
-    if (userLocation && mapRef.current) {
-      mapRef.current.animateToRegion({
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      }, 1000);
+    if (userLocation) {
+      // Force re-center by updating the map center state
+      setMapCenter({
+        latitude: userLocation.latitude + 0.00001, // Small offset to trigger re-render
+        longitude: userLocation.longitude
+      });
+      
+      // Reset after a brief delay to allow the map to center
+      setTimeout(() => {
+        setMapCenter(userLocation);
+      }, 100);
     }
   };
 
-  const handleLongPress = (event: any) => {
-    const { coordinate } = event.nativeEvent;
+  const handleLongPress = (coordinate: { latitude: number; longitude: number }) => {
     setPendingCoordinate(coordinate);
     setIsConfirmModalVisible(true);
   };
@@ -108,67 +113,79 @@ const MapScreen: React.FC = () => {
     );
   }
 
-  const mapStyle = isDarkMode ? darkMapStyle : lightMapStyle;
-
   return (
     <>
       <StatusBar style={isDarkMode ? "light" : "dark"} />
       <View style={mapScreenStyles.container}>
-        <MapView
-          ref={mapRef}
-          provider={PROVIDER_GOOGLE}
-          style={mapScreenStyles.map}
-          customMapStyle={mapStyle}
-          initialRegion={{
+        <LeafletMapView
+          center={mapCenter || {
             latitude: userLocation.latitude,
             longitude: userLocation.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
           }}
-          showsUserLocation={true}
-          showsMyLocationButton={false} // Desactivamos el botón nativo
-          followsUserLocation={false} // Cambiado a false para control manual
-          onLongPress={handleLongPress}
-        >
-          <Marker
-            coordinate={{
+          zoom={13}
+          isDarkMode={isDarkMode}
+          style={mapScreenStyles.map}
+          markers={[
+            {
+              id: 'user-location',
               latitude: userLocation.latitude,
               longitude: userLocation.longitude,
-            }}
-            title="Mi ubicación"
-            description="Estás aquí"
-          />
-          
-          <Heatmap
-            points={[
-              ...coordinates.map(c => ({ latitude: c.latitud, longitude: c.longitud, weight: 1 })),
-              ...userHotPoints.map(point => ({ latitude: point.latitude, longitude: point.longitude, weight: 1 }))
-            ]}
-            radius={30}
-            opacity={0.3}
-            gradient={{
-              colors: [
-                'rgba(255, 0, 0, 0)',      // Completely transparent
-                'rgba(255, 0, 0, 0)',      // Transparent border
-                'rgba(255, 0, 0, 0.7)',    // Sharp transition to solid red
-                'rgba(255, 0, 0, 0.9)',    // Strong red center
-              ],
-              startPoints: [0.0, 0.7, 0.85, 1.0],
-              colorMapSize: 64,
-            }}
-          />
-        </MapView>
+              title: 'Mi ubicación',
+              description: 'Tu ubicación actual',
+            },
+            ...userHotPoints.map(point => ({
+              id: point.id,
+              latitude: point.latitude,
+              longitude: point.longitude,
+              title: 'Punto de Calor',
+              description: `Reportado el ${new Date(point.timestamp).toLocaleString('es-ES', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}`,
+            }))
+          ]}
+          heatmapPoints={[
+            ...coordinates.map((c, index) => ({ 
+              latitude: c.latitud, 
+              longitude: c.longitud, 
+              weight: Math.random() * 0.8 + 0.2 // Random weight between 0.2 and 1.0 for variety
+            })),
+            ...userHotPoints.map(point => ({ 
+              latitude: point.latitude, 
+              longitude: point.longitude, 
+              weight: 1.5 // User points have higher weight
+            }))
+          ]}
+          heatmapOptions={{
+            radius: isDarkMode ? 35 : 30,
+            blur: 20,
+            maxZoom: 16,
+            max: 2.0,
+          }}
+          onLongPress={handleLongPress}
+        />
+
+        {/* Estadísticas del Heatmap */}
+        <HeatmapStats
+          totalPoints={coordinates.length + userHotPoints.length}
+          userPoints={userHotPoints.length}
+          isDarkMode={isDarkMode}
+          visible={true}
+        />
         
         {/* Botón para centrar en la ubicación - Inferior Izquierda */}
         <TouchableOpacity
           style={[mapScreenStyles.locationButton, isDarkMode ? mapScreenStyles.locationButtonDark : mapScreenStyles.locationButtonLight]}
           onPress={centerOnUserLocation}
-          activeOpacity={0.7}
+          activeOpacity={0.8}
         >
           <Ionicons
             name="locate"
-            size={24}
-            color={isDarkMode ? '#FFF' : '#000'}
+            size={26}
+            color={isDarkMode ? '#FFF' : '#333'}
           />
         </TouchableOpacity>
         
@@ -176,12 +193,12 @@ const MapScreen: React.FC = () => {
         <TouchableOpacity
           style={[mapScreenStyles.themeButton, isDarkMode ? mapScreenStyles.themeButtonDark : mapScreenStyles.themeButtonLight]}
           onPress={toggleDarkMode}
-          activeOpacity={0.7}
+          activeOpacity={0.8}
         >
           <Ionicons
             name={isDarkMode ? 'sunny' : 'moon'}
-            size={24}
-            color={isDarkMode ? '#FFF' : '#000'}
+            size={26}
+            color={isDarkMode ? '#FFF' : '#333'}
           />
         </TouchableOpacity>
 
@@ -189,12 +206,12 @@ const MapScreen: React.FC = () => {
         <TouchableOpacity
           style={[mapScreenStyles.addHotPointButton, isDarkMode ? mapScreenStyles.addHotPointButtonDark : mapScreenStyles.addHotPointButtonLight]}
           onPress={() => setIsInfoModalVisible(true)}
-          activeOpacity={0.7}
+          activeOpacity={0.8}
         >
           <Ionicons
-            name="add-circle"
-            size={24}
-            color={isDarkMode ? '#FFF' : '#000'}
+            name="add"
+            size={28}
+            color="#FFFFFF"
           />
         </TouchableOpacity>
 
@@ -202,12 +219,12 @@ const MapScreen: React.FC = () => {
         <TouchableOpacity
           style={[mapScreenStyles.userManagementButton, isDarkMode ? mapScreenStyles.userManagementButtonDark : mapScreenStyles.userManagementButtonLight]}
           onPress={() => setIsAuthModalVisible(true)}
-          activeOpacity={0.7}
+          activeOpacity={0.8}
         >
           <Ionicons
             name="person-circle"
-            size={24}
-            color={isDarkMode ? '#FFF' : '#000'}
+            size={26}
+            color={isDarkMode ? '#FFF' : '#333'}
           />
         </TouchableOpacity>
 
