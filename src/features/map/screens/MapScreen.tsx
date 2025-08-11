@@ -146,8 +146,8 @@ const MapScreen: React.FC = () => {
             }))
           ]}
           heatmapOptions={{
-            radius: isDarkMode ? 35 : 30,
-            blur: 20,
+            radius: isDarkMode ? 20 : 18,
+            blur: 15,
             maxZoom: 16,
             max: 2.0,
           }}

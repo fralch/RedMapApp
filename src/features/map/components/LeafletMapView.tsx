@@ -129,8 +129,8 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
   // Web implementation using React Leaflet
   if (Platform.OS === 'web') {
     const defaultHeatmapOptions = {
-      radius: isDarkMode ? 30 : 25,
-      blur: 8,
+      radius: isDarkMode ? 20 : 18,
+      blur: 15,
       maxZoom: 17,
       max: 1.0,
       gradient: isDarkMode 
@@ -256,8 +256,8 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
     }).join('\n');
 
     const defaultHeatmapOptions = {
-      radius: isDarkMode ? 30 : 25,
-      blur: 8,
+      radius: isDarkMode ? 20 : 18,
+      blur: 15,
       maxZoom: 17,
       max: 1.0,
       ...heatmapOptions
