@@ -131,31 +131,18 @@ const MapScreen: React.FC = () => {
               longitude: userLocation.longitude,
               title: 'Mi ubicación',
               description: 'Tu ubicación actual',
-            },
-            ...userHotPoints.map(point => ({
-              id: point.id,
-              latitude: point.latitude,
-              longitude: point.longitude,
-              title: 'Punto de Calor',
-              description: `Reportado el ${new Date(point.timestamp).toLocaleString('es-ES', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-              })}`,
-            }))
+            }
           ]}
           heatmapPoints={[
             ...coordinates.map((c, index) => ({ 
               latitude: c.latitud, 
               longitude: c.longitud, 
-              weight: Math.random() * 0.8 + 0.2 // Random weight between 0.2 and 1.0 for variety
+              weight: 1.0 // Uniform weight for all points
             })),
             ...userHotPoints.map(point => ({ 
               latitude: point.latitude, 
               longitude: point.longitude, 
-              weight: 1.5 // User points have higher weight
+              weight: 1.0 // Same weight as other points
             }))
           ]}
           heatmapOptions={{
