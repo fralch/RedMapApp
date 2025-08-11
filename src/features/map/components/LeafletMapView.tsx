@@ -158,6 +158,7 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
         zoom={zoom}
         style={style}
         ref={mapRef}
+        zoomControl={false}
         eventHandlers={{
           click: (e: { latlng: { lat: number; lng: number } }) => {
             if (onMapPress) {
@@ -191,28 +192,68 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
         )}
         
         {/* Render markers */}
-        {markers.map((marker) => (
-          <Marker key={marker.id} position={[marker.latitude, marker.longitude]}>
-            {(marker.title || marker.description) && (
-              <Popup>
-                {marker.title && <div><strong>{marker.title}</strong></div>}
-                {marker.description && <div>{marker.description}</div>}
-              </Popup>
-            )}
-          </Marker>
-        ))}
+        {markers.map((marker) => {
+          // Create red icon for user location
+          const isUserLocation = marker.id === 'user-location';
+          let markerIcon = undefined;
+          
+          if (isUserLocation && typeof window !== 'undefined' && (window as any).L) {
+            markerIcon = new (window as any).L.Icon({
+              iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <circle cx="12" cy="12" r="10" fill="#ff0000" stroke="#ffffff" stroke-width="2"/>
+                  <circle cx="12" cy="12" r="3" fill="#ffffff"/>
+                </svg>
+              `),
+              iconSize: [24, 24],
+              iconAnchor: [12, 12],
+              popupAnchor: [0, -12]
+            });
+          }
+          
+          return (
+            <Marker 
+              key={marker.id} 
+              position={[marker.latitude, marker.longitude]}
+              icon={markerIcon}
+            >
+              {(marker.title || marker.description) && (
+                <Popup>
+                  {marker.title && <div><strong>{marker.title}</strong></div>}
+                  {marker.description && <div>{marker.description}</div>}
+                </Popup>
+              )}
+            </Marker>
+          );
+        })}
       </MapContainer>
     );
   }
 
   // Mobile implementation using WebView with Leaflet HTML
   const createLeafletHTML = () => {
-    const markersJS = markers.map(marker => 
-      `L.marker([${marker.latitude}, ${marker.longitude}]).addTo(map)
+    const markersJS = markers.map(marker => {
+      const isUserLocation = marker.id === 'user-location';
+      const iconCode = isUserLocation ? `
+        var redIcon = L.icon({
+          iconUrl: 'data:image/svg+xml;base64,' + btoa(\`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <circle cx="12" cy="12" r="10" fill="#ff0000" stroke="#ffffff" stroke-width="2"/>
+              <circle cx="12" cy="12" r="3" fill="#ffffff"/>
+            </svg>
+          \`),
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
+          popupAnchor: [0, -12]
+        });
+        L.marker([${marker.latitude}, ${marker.longitude}], {icon: redIcon}).addTo(map)` 
+      : `L.marker([${marker.latitude}, ${marker.longitude}]).addTo(map)`;
+      
+      return `${iconCode}
         ${marker.title || marker.description ? 
           `.bindPopup('${marker.title ? `<strong>${marker.title}</strong>` : ''}${marker.description ? `<div>${marker.description}</div>` : ''}')` 
-          : ''};`
-    ).join('\n');
+          : ''};`;
+    }).join('\n');
 
     const defaultHeatmapOptions = {
       radius: isDarkMode ? 30 : 25,
@@ -298,7 +339,7 @@ const LeafletMapView: React.FC<LeafletMapViewProps> = ({
         <div id="map"></div>
         <script>
           var map = L.map('map', {
-            zoomControl: true,
+            zoomControl: false,
             attributionControl: true,
             fadeAnimation: true,
             zoomAnimation: true,
