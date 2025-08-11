@@ -13,7 +13,10 @@
       "backgroundColor": "#222222"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "TU_API_KEY_DE_GOOGLE_MAPS_IOS"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +24,12 @@
         "backgroundColor": "#222222"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.fralch.RedMapApp"
+      "package": "com.fralch.RedMapApp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "TU_API_KEY_DE_GOOGLE_MAPS_ANDROID"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
